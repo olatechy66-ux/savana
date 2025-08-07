@@ -1,0 +1,40 @@
+run = "npm run dev"
+modules = ["nodejs-20"]
+[nix]
+channel = "stable-25_05"
+
+[deployment]
+run = ["sh", "-c", "npm run dev"]
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
+localPort = 5173
+externalPort = 80
+
+[workflows]
+runButton = "Run Full App"
+
+[[workflows.workflow]]
+name = "Run"
+author = 45854998
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[workflows.workflow]]
+name = "Run Full App"
+author = 45854998
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node server.js"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
